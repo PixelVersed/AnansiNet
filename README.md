@@ -4,4 +4,4 @@ A cross platform desktop app for monitoring and limiting network bandwidth on yo
 
 # Development
 
-Check the (documentation)[docs/development.md] for detailed instructions
+Check the [documentation](docs/development.md) for detailed instructions

@@ -1,4 +1,5 @@
 .xyz/
+bun.lock
 
 # tauri gitignore
 .DS_Store
