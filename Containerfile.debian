@@ -1,0 +1,39 @@
+FROM debian:12
+
+RUN apt-get -y update && apt-get -y upgrade
+
+# Install dust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Install bun
+RUN apt-get -y install unzip curl
+RUN curl -fsSL https://bun.sh/install | bash
+
+# Install python
+RUN apt-get -y install python3
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install tauri dependencies
+RUN apt-get -y install libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev xdg-utils fuse
+
+# # Set up Android SDK
+
+# ## Prepare Android directories and system variables
+# ENV ANDROID_HOME="/Android/sdk"
+# ENV NDK_VERSION="28.2.13676358"
+# ENV NDK_HOME="$ANDROID_HOME/ndk/$NDK_VERSION"
+# ENV PATH="$PATH:$ANDROID_HOME/platform-tools"
+# ENV PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin"
+# RUN mkdir -p .android && touch .android/repositories.cfg
+
+# ## Install rust android target
+# RUN rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
+
+# ## Install jdk, android ndk and android tools
+# RUN apt-get install -y default-jdk
+# RUN curl -fsSL -o sdk-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip
+# RUN unzip sdk-tools.zip && rm sdk-tools.zip
+# RUN mkdir -p $ANDROID_HOME/cmdline-tools && mv cmdline-tools $ANDROID_HOME/cmdline-tools/latest
+
+# RUN yes | sdkmanager --licenses && sdkmanager "ndk;$NDK_VERSION" "platform-tools"
