@@ -16,6 +16,7 @@ For native environemnt you need to install the following dependencies manually:
 
 - [Tauri prerequisites](<https://tauri.app/start/prerequisites/>) (including [rust](<https://rust-lang.org/>))
 - [python 3.13 or above](<https://www.python.org/downloads/>)
+- [uv](<https://docs.astral.sh/uv/getting-started/installation/#standalone-installer>)
 - [Bun](<https://bun.com/>)
 
 # development
@@ -24,5 +25,8 @@ running the app is super simple:
 
 ```sh
 $ cd /anansinet # /src if you're working inside a container
-$ bun install && bun run tauri dev
+$ bun install && bun run build
+$ uv venv --python-preference only-system && source .venv/bin/activate
+$ uv pip install --reinstall -e src-tauri/
+$ python -m anansinet
 ```
