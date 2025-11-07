@@ -12,10 +12,9 @@ RUN curl -fsSL https://bun.sh/install | bash && apk del --purge -r unzip bash
 ENV PATH="$PATH:/root/.bun/bin/"
 
 # Install python 
-RUN apk add python3 py3-pip py3-virtualenv
+RUN apk add python3 uv
 
 # Install tauri dependencies
-# librsvg-dev
 RUN apk add build-base webkit2gtk-4.1-dev curl wget file openssl libayatana-appindicator-dev librsvg font-freefont 
 
 # # Set up Android SDK
