@@ -1,8 +1,9 @@
 [package]
 name = "anansinet"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "A cross platform desktop app for monitoring and limiting network bandwidth on your system and network. "
+authors = ["PixelVersed"]
+# ! cargo related value. DO NOT TOUCH!!!
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
