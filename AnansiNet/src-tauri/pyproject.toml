@@ -1,0 +1,16 @@
+[project]
+name = "anansinet"  
+version = "0.1.0"
+description = "A cross platform desktop app for monitoring and limiting network bandwidth on your system and network."
+requires-python = ">=3.12"
+dependencies = ["pytauri == 0.8.*", "anyio == 4.*"]  
+
+[project.entry-points.pytauri]
+ext_mod = "anansinet.ext_mod"
+
+[build-system]
+requires = ["setuptools >= 80"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages]
+find = { where = ["python"] }
