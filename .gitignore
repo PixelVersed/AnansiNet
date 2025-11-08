@@ -1,6 +1,5 @@
 .xyz/
 bun.lock
-!AnansiNet/src/lib
 
 # tauri gitignore
 .DS_Store
@@ -34,7 +33,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-/lib/
+lib/
 lib64/
 parts/
 sdist/

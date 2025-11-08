@@ -1,10 +1,10 @@
 <script lang="ts">
   // Components
-  import { Input } from "$lib/components/ui/input/index.js";
-  import { Button } from "$lib/components/ui/button/index.js";
-  import { Checkbox } from "$lib/components/ui/checkbox/index.js";
-  import * as Table from "$lib/components/ui/table/index.js";
-  import * as ButtonGroup from "$lib/components/ui/button-group/index.js";
+  import { Input } from "$shared/components/ui/input/index.js";
+  import { Button } from "$shared/components/ui/button/index.js";
+  import { Checkbox } from "$shared/components/ui/checkbox/index.js";
+  import * as Table from "$shared/components/ui/table/index.js";
+  import * as ButtonGroup from "$shared/components/ui/button-group/index.js";
 
   // Icons
   import Stop from "@lucide/svelte/icons/circle-x";

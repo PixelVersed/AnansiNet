@@ -12,6 +12,10 @@ const config = {
     adapter: adapter({
       fallback: "index.html",
     }),
+    alias: {
+      $shared: "./src/shared",
+      "$shared/*": "./src/shared/*",
+    },
   },
 };
 
