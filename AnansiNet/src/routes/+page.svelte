@@ -14,61 +14,70 @@
 
   // Type
   type Device = {
-    name: string;
     ip: string;
     mac: string;
-    download: string;
-    upload: string;
-    downloadCap: string;
-    uploadCap: string;
+    name: string;
+    currentDownload: number;
+    currentUpload: number;
+    downloadCap: number;
+    uploadCap: number;
     block: boolean;
+    online: boolean;
   };
 
-  // Example device list (for table preview only)
-  let devices = $state<Device[]>([
-    {
-      name: "Your PC",
-      ip: "192.168.1.99",
-      mac: "EB98329DS89",
-      download: "2000",
-      upload: "1000",
-      downloadCap: "1500",
-      uploadCap: "500",
-      block: false,
-    },
-    {
-      name: "192.168.1.100",
-      ip: "192.168.1.100",
-      mac: "CC68329FS12",
-      download: "2000",
-      upload: "1000",
-      downloadCap: "",
-      uploadCap: "",
-      block: true,
-    },
-  ]);
+  type Host = {
+    ip: string;
+    mac: string;
+    name: string;
+    spoofed: boolean;
+    limited: boolean;
+    blocked: boolean;
+  };
 
   // Input handlers
-  function handleInput(
-    index: number,
-    field: "downloadCap" | "uploadCap",
-    value: string
-  ) {
-    devices[index][field] = value;
-  }
+  // function handleInput(
+  //   index: string,
+  //   field: "downloadCap" | "uploadCap",
+  //   value: number,
+  // ) {
+  //   devicess[index].field = value;
+  // }
 
-  function handleBlockToggle(index: number, checked: boolean) {
-    devices[index].block = checked;
-    devices = [...devices];
-  }
+  // function handleBlockToggle(index: string, checked: boolean) {
+  //   devicess[index].block = checked;
+  //   devices = [...devices];
+  // }
 
+  import { pyInvoke } from "tauri-plugin-pytauri-api";
+  type Dict<T> = Record<string, T>;
+
+  async function get_connected_devices() {
+    const hosts = await pyInvoke<Host[]>("get_hosts");
+    map_hosts_to_devices(hosts);
+  }
+  let devices = $state<Dict<Device>>({});
+
+  function map_hosts_to_devices(hosts: Host[]) {
+    hosts.forEach((host) => {
+      devices[host.ip] ??=  {
+        ip: host.ip,
+        mac: host.mac,
+        block: false,
+        online: true
+      } as Device;
+    });
+  }
 </script>
 
 <section class="p-4 2xl:p-6">
   <!-- Toolbar -->
   <ButtonGroup.Root class="flex w-full items-center gap-2 py-2">
     <ButtonGroup.Root>
-      <Button variant="outline" aria-label="Search"><Search />Search</Button>
+      <Button
+        variant="outline"
+        aria-label="Search"
+        onclick={get_connected_devices}><Search />Search</Button
+      >
     </ButtonGroup.Root>
     <ButtonGroup.Root>
       <Button variant="outline" aria-label="Apply">
@@ -99,18 +108,18 @@
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {#each devices as device, i (device.mac)}
+      {#each Object.entries(devices) as [ip, device] (ip)}
         <Table.Row>
           <Table.Cell class="font-medium">{device.name}</Table.Cell>
           <Table.Cell class="font-medium">{device.ip}</Table.Cell>
           <Table.Cell class="font-medium">{device.mac}</Table.Cell>
           <Table.Cell class="font-medium">
-            {device.download}<span class="text-xs text-muted-foreground px-1"
+            {device.currentDownload}<span class="text-xs text-muted-foreground px-1"
               >KB/s</span
             >
           </Table.Cell>
           <Table.Cell class="font-medium">
-            {device.upload}<span class="text-xs text-muted-foreground px-1"
+            {device.currentUpload}<span class="text-xs text-muted-foreground px-1"
               >KB/s</span
             >
           </Table.Cell>
@@ -123,9 +132,9 @@
               placeholder="KB/s"
               class="h-8 text-sm placeholder:text-xs"
               value={device.downloadCap}
-              oninput={(e) =>
-                handleInput(i, "downloadCap", e.currentTarget.value)}
-            />
+              />
+              <!-- oninput={(e) =>
+                handleInput(ip, "downloadCap", Number(e.currentTarget.value))} -->
           </Table.Cell>
 
           <!-- Upload Cap Input -->
@@ -136,14 +145,17 @@
               placeholder="KB/s"
               class="h-8 text-sm placeholder:text-xs"
               value={device.uploadCap}
-              oninput={(e) =>
-                handleInput(i, "uploadCap", e.currentTarget.value)}
-            />
+              />
+              <!-- oninput={(e) =>
+                handleInput(ip, "uploadCap", Number(e.currentTarget.value))} -->
           </Table.Cell>
 
           <!-- Block Checkbox -->
           <Table.Cell class="text-center">
-           <Checkbox bind:checked={device.block} onchange={() => handleBlockToggle(i, device.block)} />
+            <Checkbox
+              bind:checked={device.block}
+              />
+              <!-- onchange={() => handleBlockToggle(ip, device.block)} -->
           </Table.Cell>
         </Table.Row>
       {/each}

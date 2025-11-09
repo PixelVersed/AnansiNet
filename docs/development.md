@@ -15,8 +15,9 @@ Aside from the base image, there are no differences between them and both offer 
 To build and run the container, you can use **Podman**:
 
 ```sh
-$ podman build -t anansinet:1 .
-$ podman run --rm -it \
+$ sudo podman build -t anansinet:1 .
+$ sudo -E podman run --rm -it \
+    --privileged --network=host \
     -v $PWD/AnansiNet:/src \
     -p 1420:1420 \
     --env DISPLAY \
@@ -25,6 +26,9 @@ $ podman run --rm -it \
     -v $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY \
     anansinet:1
 ```
+
+> `sudo` is required to access the host's network and scan connected devices.
+> `-E` to [preserve environment variables](<https://wiki.archlinux.org/title/Running_GUI_applications_as_root#Using_sudo_-E>) else the UI will crash.
 
 ## Native Environment
 
