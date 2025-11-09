@@ -15,6 +15,12 @@ edition = "2021"
 name = "anansinet_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
+[[bin]]
+# the same as the package name above
+name = "anansinet"
+path = "src/main.rs"
+required-features = ["pytauri/standalone"]
+
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
 
@@ -23,4 +29,5 @@ tauri = { version = "2", features = [] }
 tauri-plugin-opener = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-
+pytauri = { version = "0.8" }  
+pyo3 = { version = "0.25" }

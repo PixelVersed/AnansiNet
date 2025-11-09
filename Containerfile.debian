@@ -11,7 +11,7 @@ RUN apt-get -y install unzip curl
 RUN curl -fsSL https://bun.sh/install | bash
 
 # Install python
-RUN apt-get -y install python3
+RUN apt-get -y install python3-dev
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Install tauri dependencies
